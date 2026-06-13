@@ -19,6 +19,8 @@ while lives > 0:
 
         lives -= 1
         print(f"დარჩენილია {lives} ცდა.")
+        print("-" * 30)
+        print(f"მხოლოდ ტესტირებისთვის: {number_to_guess}")  # ეს ხაზის წაშლა არ დაგავიწყდეთ, ეს მხოლოდ ტესტირებისთვისაა!
     
     except ValueError as e:
         print(e)
