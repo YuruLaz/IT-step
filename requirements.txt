@@ -1,13 +1,6 @@
-# Direct dependencies used by this project:
-#   Faker    -> homework/lesson 11/classwork/main.py
-#   requests -> homework/lesson 13/main.py
-# (datetime, math, random, functools are part of the Python standard library)
-
-Faker==40.27.0
-requests==2.34.2
-
-# --- transitive dependencies (installed automatically) ---
 certifi==2026.6.17
 charset-normalizer==3.4.7
+Faker==40.27.0
 idna==3.18
+requests==2.34.2
 urllib3==2.7.0
