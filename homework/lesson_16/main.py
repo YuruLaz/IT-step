@@ -4,7 +4,6 @@ accounts = {}
 
 
 def read_amount(prompt):
-    """Ask until the user types a valid non-negative whole number."""
     while True:
         try:
             value = int(input(prompt))
@@ -78,7 +77,6 @@ while True:
                 print("Invalid option.")
 
     elif choice == "3":
-        print("Goodbye!")
         break
 
     else:

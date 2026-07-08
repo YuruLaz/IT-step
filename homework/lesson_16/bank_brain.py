@@ -6,7 +6,6 @@ class Bank:
     def __init__(self, owner: str, balance: int = 0):
         self._owner = owner
 
-        # A starting balance of 0 is valid; a negative one is not.
         if balance < 0:
             print("Invalid starting balance, defaulting to 0.")
             balance = 0
