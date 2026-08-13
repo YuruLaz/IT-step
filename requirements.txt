@@ -3,4 +3,5 @@ charset-normalizer==3.4.7
 Faker==40.27.0
 idna==3.18
 requests==2.34.2
+streamlit==1.61.1
 urllib3==2.7.0
