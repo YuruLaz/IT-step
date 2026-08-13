@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1>ToDo Dashboard</h1>
+      <p class="subtitle">მონაცემები მოწოდებულია <code>jsonplaceholder.typicode.com/todos</code>-დან</p>
+    </header>
+
+    <section class="controls">
+      <div class="control">
+        <label for="search">ძებნა სათაურით</label>
+        <input type="text" id="search" placeholder="მაგ: delectus aut autem">
+      </div>
+
+      <div class="control">
+        <label for="userFilter">User ID</label>
+        <select id="userFilter">
+          <option value="all">ყველა</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label for="statusFilter">სტატუსი</label>
+        <select id="statusFilter">
+          <option value="all">ყველა</option>
+          <option value="completed">დასრულებული</option>
+          <option value="incomplete">დაუსრულებელი</option>
+        </select>
+      </div>
+
+      <div class="control">
+        <label for="perPage">გვერდზე</label>
+        <select id="perPage">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+    </section>
+
+    <p class="result-count" id="resultCount"></p>
+
+    <div id="loading" class="loading">იტვირთება...</div>
+    <div id="error" class="error hidden"></div>
+
+    <ul class="todo-list" id="todoList"></ul>
+
+    <nav class="pagination" id="pagination"></nav>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

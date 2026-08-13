@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo დეტალები</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="index.html" class="back-link">&larr; მთავარ გვერდზე დაბრუნება</a>
+      <h1>ToDo დეტალები</h1>
+    </header>
+
+    <div id="loading" class="loading">იტვირთება...</div>
+    <div id="error" class="error hidden"></div>
+
+    <section id="detailCard" class="detail-card hidden">
+      <h2 id="detailTitle"></h2>
+
+      <dl class="detail-fields">
+        <dt>ID</dt>
+        <dd id="detailId"></dd>
+
+        <dt>User ID</dt>
+        <dd id="detailUserId"></dd>
+
+        <dt>Title</dt>
+        <dd id="detailTitleField"></dd>
+
+        <dt>Completed</dt>
+        <dd id="detailCompleted"></dd>
+      </dl>
+    </section>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/todo.js"></script>
+</body>
+</html>
