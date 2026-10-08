@@ -9,7 +9,9 @@ from app.models.hotel import Hotel
 from app.models.room import Room
 from app.models.room_image import RoomImage
 from app.models.room_type import RoomType
+from app.models.user import User
 from app.schemas.room import RoomFilter, RoomIn, RoomOut, RoomTypeOut
+from app.security import require_admin
 
 router = APIRouter(prefix="/rooms", tags=["rooms"])
 
@@ -29,7 +31,7 @@ def get_rooms(db: Session = Depends(get_db)):
 
 
 @router.post("", response_model=RoomOut, status_code=status.HTTP_201_CREATED)
-def create_room(room: RoomIn, db: Session = Depends(get_db)):
+def create_room(room: RoomIn, db: Session = Depends(get_db), admin: User = Depends(require_admin)):
     if not db.get(Hotel, room.hotel_id):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found")
 
@@ -108,7 +110,7 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
 
 
 @router.delete("/{room_id}")
-def delete_room(room_id: int, db: Session = Depends(get_db)):
+def delete_room(room_id: int, db: Session = Depends(get_db), admin: User = Depends(require_admin)):
     room = db.get(Room, room_id)
     if not room:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Room not found")

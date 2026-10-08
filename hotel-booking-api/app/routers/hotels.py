@@ -4,7 +4,9 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.hotel import Hotel
 from app.models.room import Room
+from app.models.user import User
 from app.schemas.hotel import HotelDetail, HotelIn, HotelSummary
+from app.security import require_admin
 
 router = APIRouter(prefix="/hotels", tags=["hotels"])
 
@@ -18,7 +20,7 @@ def get_hotels(city: str | None = None, db: Session = Depends(get_db)):
 
 
 @router.post("", response_model=HotelSummary, status_code=status.HTTP_201_CREATED)
-def create_hotel(hotel: HotelIn, db: Session = Depends(get_db)):
+def create_hotel(hotel: HotelIn, db: Session = Depends(get_db), admin: User = Depends(require_admin)):
     new_hotel = Hotel(
         name=hotel.name,
         address=hotel.address,
@@ -46,7 +48,7 @@ def get_hotel(hotel_id: int, db: Session = Depends(get_db)):
 
 
 @router.delete("/{hotel_id}")
-def delete_hotel(hotel_id: int, db: Session = Depends(get_db)):
+def delete_hotel(hotel_id: int, db: Session = Depends(get_db), admin: User = Depends(require_admin)):
     hotel = db.get(Hotel, hotel_id)
     if not hotel:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found")

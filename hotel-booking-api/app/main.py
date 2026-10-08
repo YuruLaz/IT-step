@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from scalar_fastapi import get_scalar_api_reference
 
 from app.routers import bookings, hotels, rooms, users
 
@@ -16,4 +17,9 @@ app.include_router(users.router)
 
 @app.get("/")
 def root():
-    return {"message": "Hotel Booking API is running. See /docs for the Swagger UI."}
+    return {"message": "Hotel Booking API is running. See /docs for Swagger, /scalar for the Scalar UI."}
+
+
+@app.get("/scalar", include_in_schema=False)
+def scalar_docs():
+    return get_scalar_api_reference(openapi_url=app.openapi_url, title=app.title)
