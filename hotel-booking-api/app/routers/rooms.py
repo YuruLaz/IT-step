@@ -25,13 +25,11 @@ def _is_available_for_dates(db: Session, room_id: int, check_in: date, check_out
 
 @router.get("", response_model=list[RoomOut])
 def get_rooms(db: Session = Depends(get_db)):
-    """Get every room we have. No security.py involved."""
     return db.query(Room).all()
 
 
 @router.post("", response_model=RoomOut, status_code=status.HTTP_201_CREATED)
 def create_room(room: RoomIn, db: Session = Depends(get_db)):
-    """Create a new room for a hotel. No security.py involved."""
     if not db.get(Hotel, room.hotel_id):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found")
 
@@ -59,13 +57,11 @@ def create_room(room: RoomIn, db: Session = Depends(get_db)):
 
 @router.get("/types", response_model=list[RoomTypeOut])
 def get_room_types(db: Session = Depends(get_db)):
-    """Get the 3 room types (Single/Double/Deluxe). No security.py involved."""
     return db.query(RoomType).all()
 
 
 @router.get("/available", response_model=list[RoomOut])
 def get_available_rooms(check_in: date, check_out: date, db: Session = Depends(get_db)):
-    """Get rooms that are free for these check-in/check-out dates. No security.py involved."""
     if check_out <= check_in:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="check_out must be after check_in")
 
@@ -75,7 +71,6 @@ def get_available_rooms(check_in: date, check_out: date, db: Session = Depends(g
 
 @router.post("/filter", response_model=list[RoomOut])
 def get_filtered_rooms(filters: RoomFilter, db: Session = Depends(get_db)):
-    """Get rooms filtered by type, price range, guests, and/or dates. No security.py involved."""
     if (filters.check_in is None) != (filters.check_out is None):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -106,7 +101,6 @@ def get_filtered_rooms(filters: RoomFilter, db: Session = Depends(get_db)):
 
 @router.get("/{room_id}", response_model=RoomOut)
 def get_room(room_id: int, db: Session = Depends(get_db)):
-    """Get one room by id. No security.py involved."""
     room = db.get(Room, room_id)
     if not room:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Room not found")
@@ -115,7 +109,6 @@ def get_room(room_id: int, db: Session = Depends(get_db)):
 
 @router.delete("/{room_id}")
 def delete_room(room_id: int, db: Session = Depends(get_db)):
-    """Delete a room, but only if it has no bookings. No security.py involved."""
     room = db.get(Room, room_id)
     if not room:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Room not found")

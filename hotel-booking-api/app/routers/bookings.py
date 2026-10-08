@@ -13,7 +13,6 @@ router = APIRouter(prefix="/bookings", tags=["bookings"])
 
 @router.get("", response_model=list[BookingOut])
 def get_bookings(db: Session = Depends(get_db)):
-    """Get every booking in the system. No security.py involved, open to anyone."""
     return db.query(Booking).all()
 
 
@@ -23,7 +22,6 @@ def create_booking(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Create a booking. Uses get_current_user from security.py to know who's booking, so it can be saved as the owner."""
     if booking.check_out <= booking.check_in:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="check_out must be after check_in")
 
@@ -61,7 +59,6 @@ def cancel_booking(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Cancel a booking. Uses get_current_user from security.py, then only lets the booking's owner or an admin go through."""
     booking = db.get(Booking, booking_id)
     if not booking:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Booking not found")

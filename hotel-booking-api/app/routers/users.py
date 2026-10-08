@@ -12,7 +12,6 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 @router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
 def register(user: UserRegister, db: Session = Depends(get_db)):
-    """Register a new account. Uses hash_password from security.py so we never save the real password."""
     existing = db.query(User).filter(
         (User.username == user.username) | (User.email == user.email)
     ).first()
@@ -33,7 +32,6 @@ def register(user: UserRegister, db: Session = Depends(get_db)):
 
 @router.post("/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    """Log in. Uses verify_password to check the password, then create_access_token to hand back a token."""
     user = db.query(User).filter(User.username == form_data.username).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
@@ -44,7 +42,6 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 @router.get("/me", response_model=UserOut)
 def get_my_profile(current_user: User = Depends(get_current_user)):
-    """Get my own profile. Uses get_current_user from security.py to know who's asking."""
     return current_user
 
 
@@ -54,7 +51,6 @@ def update_my_profile(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """Update my own profile. Uses get_current_user to know who I am, and hash_password again if I'm changing my password."""
     if updates.username is not None:
         current_user.username = updates.username
     if updates.email is not None:
@@ -69,13 +65,11 @@ def update_my_profile(
 
 @router.get("", response_model=list[UserOut])
 def get_all_users(db: Session = Depends(get_db), admin: User = Depends(require_admin)):
-    """Get every user. Admin only, uses require_admin from security.py."""
     return db.query(User).all()
 
 
 @router.get("/{user_id}", response_model=UserOut)
 def get_user(user_id: int, db: Session = Depends(get_db), admin: User = Depends(require_admin)):
-    """Get one user by id. Admin only, uses require_admin from security.py."""
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -84,7 +78,6 @@ def get_user(user_id: int, db: Session = Depends(get_db), admin: User = Depends(
 
 @router.delete("/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db), admin: User = Depends(require_admin)):
-    """Delete a user. Admin only, uses require_admin from security.py."""
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
