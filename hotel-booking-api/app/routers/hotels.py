@@ -11,6 +11,7 @@ router = APIRouter(prefix="/hotels", tags=["hotels"])
 
 @router.get("", response_model=list[HotelSummary])
 def get_hotels(city: str | None = None, db: Session = Depends(get_db)):
+    """Get all hotels, can filter by city. No security.py involved, open to anyone."""
     query = db.query(Hotel)
     if city:
         query = query.filter(Hotel.city == city)
@@ -19,6 +20,7 @@ def get_hotels(city: str | None = None, db: Session = Depends(get_db)):
 
 @router.post("", response_model=HotelSummary, status_code=status.HTTP_201_CREATED)
 def create_hotel(hotel: HotelIn, db: Session = Depends(get_db)):
+    """Create a new hotel. No security.py involved, open to anyone."""
     new_hotel = Hotel(
         name=hotel.name,
         address=hotel.address,
@@ -33,12 +35,14 @@ def create_hotel(hotel: HotelIn, db: Session = Depends(get_db)):
 
 @router.get("/cities", response_model=list[str])
 def get_cities(db: Session = Depends(get_db)):
+    """Get the list of cities that have hotels in them. No security.py involved."""
     rows = db.query(Hotel.city).distinct().order_by(Hotel.city).all()
     return [row[0] for row in rows]
 
 
 @router.get("/{hotel_id}", response_model=HotelDetail)
 def get_hotel(hotel_id: int, db: Session = Depends(get_db)):
+    """Get one hotel with all its rooms. No security.py involved."""
     hotel = db.get(Hotel, hotel_id)
     if not hotel:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found")
@@ -47,6 +51,7 @@ def get_hotel(hotel_id: int, db: Session = Depends(get_db)):
 
 @router.delete("/{hotel_id}")
 def delete_hotel(hotel_id: int, db: Session = Depends(get_db)):
+    """Delete a hotel, but only if it has no rooms left. No security.py involved."""
     hotel = db.get(Hotel, hotel_id)
     if not hotel:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found")

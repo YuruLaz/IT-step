@@ -8,8 +8,10 @@ class Room(Base):
     __tablename__ = "rooms"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+
     hotel_id: Mapped[int] = mapped_column(ForeignKey("hotels.id"), nullable=False)
     room_type_id: Mapped[int] = mapped_column(ForeignKey("room_types.id"), nullable=False)
+    
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     price_per_night: Mapped[int] = mapped_column(Integer, nullable=False)
     maximum_guests: Mapped[int] = mapped_column(Integer, nullable=False)
