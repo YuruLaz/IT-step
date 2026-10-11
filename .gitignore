@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .DS_Store
+test.py
+.env
+classwork/
+homework/Lesson_54/explaining_review_analysis.py
