@@ -7,4 +7,5 @@ test.py
 .env
 classwork/
 homework/Lesson_54/explaining_review_analysis.py
-homework/Lesson_55/main_vectorstore.py
+homework/Lesson_55/RAG_postgre.py
+homework/Lesson_55/RAG_postgre/
