@@ -1,3 +1,5 @@
 {
-    "python.defaultInterpreterPath": "D:\\Projects\\IT-step\\venv\\Scripts\\python.exe"
+    "python.defaultInterpreterPath": "D:\\Projects\\IT-step\\venv\\Scripts\\python.exe",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000
 }
